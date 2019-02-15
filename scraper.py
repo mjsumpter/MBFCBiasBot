@@ -81,7 +81,7 @@ def main():
                 source = (source_title, href, link, bias_label,
                           factual_rating, bias_desc, source_desc)
                 create_source(conn, source)
-                print("Added " + bias + " source " + str(i))
+                print("Added " + bias + " source " + str(i) + " " + href)
                 i += 1
 
 
