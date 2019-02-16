@@ -1,8 +1,10 @@
 import requests
 import sqlite3
 import re
+from urllib.request import urlopen
 from sqlite3 import Error
 from bs4 import BeautifulSoup
+from helper import url_to_domain
 
 
 def create_connection(db_file):
@@ -54,23 +56,43 @@ def main():
                 # href is link to full info page on source
                 href = a['href']
 
+                # stops specific trouble children from crashing scanner
+                if (not "mediabiasfactcheck" in href) or ("strategic-culture-foundation" in href):
+                    print("Bad Source")
+                    continue
+
+                # if 404, skip to next link
+                try:
+                    page = urlopen(href)
+                except:
+                    continue
+
                 r_source = requests.get(href)
                 source_soup = BeautifulSoup(r_source.content, 'html.parser')
 
                 # link is link to news site
                 pattern = re.compile(r"(?:^|\W)Source:(?:$|\W)")
-                index = pattern.search(source_soup.text).start()
-                link = source_soup.text[index+9:index+100]
-                link = link[:link.find('\n')]
+                if pattern.search(source_soup.text):
+                    index = pattern.search(source_soup.text).start()
+                    link = source_soup.text[index+9:index+100]
+                    link = link[:link.find('\n')]
+                    print(link)
+                    link = url_to_domain(link)
+
+                else:
+                    link = "Error"
 
                 html = source_soup.select_one('.entry-header > h1')
                 bias_label = html.text.strip() if html else "Error"
 
+                # grabs factual reporting tag
                 pattern = re.compile(r"(?:^|\W)Reporting:(?:$|\W)")
-                index = pattern.search(source_soup.text).start()
-                factual_rating = source_soup.text[index+12:index+20]
-                factual_rating = factual_rating[:factual_rating.find('\n')]
-                factual_rating = factual_rating if factual_rating else "Error"
+                if pattern.search(source_soup.text):
+                    index = pattern.search(source_soup.text).start()
+                    factual_rating = source_soup.text[index+12:index+20]
+                    factual_rating = factual_rating[:factual_rating.find('\n')]
+                else:
+                    factual_rating = "Error"
 
                 html = source_soup.select_one('.entry-content p:nth-child(1)')
                 bias_desc = html.text.strip().replace(u'\xa0', u' ') if html else "Error"
@@ -81,7 +103,8 @@ def main():
                 source = (source_title, href, link, bias_label,
                           factual_rating, bias_desc, source_desc)
                 create_source(conn, source)
-                print("Added " + bias + " source " + str(i) + " " + href)
+                print("Added " + bias + " source " +
+                      str(i) + " " + href + " " + link)
                 i += 1
 
 
