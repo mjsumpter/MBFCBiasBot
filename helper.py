@@ -120,3 +120,14 @@ def build_message(source):
     
     template = template.replace(u'\xa0', u' ')
     return template.format(**source_dict)
+
+
+def find_nth_character(str1, substr, n):
+    """find the index of the nth substr in string str1"""
+    k = 0
+    for index, c in enumerate(str1):
+        #print index, c, n  # test
+        if c == substr:
+            k += 1
+            if k == n:
+                return index

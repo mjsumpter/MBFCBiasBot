@@ -4,7 +4,7 @@ import re
 from urllib.request import urlopen
 from sqlite3 import Error
 from bs4 import BeautifulSoup
-from helper import url_to_domain, create_connection
+from helper import url_to_domain, create_connection, find_nth_character
 
 
 def create_source(conn, source):
@@ -98,7 +98,13 @@ def main():
                     index = pattern.search(source_soup.text).start()
                     source_desc = source_soup.text[index+8:]
                     source_desc = source_desc[:source_desc.find(')') + 1]
-                else:
+                pattern = re.compile(r"(?:^|\W)Analysis/Bias(?:$|\W)")
+                if pattern.search(source_soup.text):
+                    index = pattern.search(source_soup.text).start()
+                    source_desc = source_soup.text[index + 15:]
+                    index = find_nth_character(source_desc, '.', 3)
+                    source_desc = source_desc[:index]
+                if len(source_desc) == 0:
                     source_desc = "Error"
 
                 source = (source_title, href, link, bias_label,
