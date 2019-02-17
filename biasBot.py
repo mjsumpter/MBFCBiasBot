@@ -16,7 +16,7 @@ def main():
             posts_replied_to = posts_replied_to.split("\n")
             posts_replied_to = list(filter(None, posts_replied_to))
 
-    subreddit = reddit.subreddit('news+worldnews+politics')
+    subreddit = reddit.subreddit('news+worldnews')
     conn = create_connection()
     with conn:
         c = conn.cursor()
