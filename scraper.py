@@ -15,7 +15,7 @@ def create_source(conn, source):
     :return: source id
     """
 
-    sql = ''' INSERT OR UPDATE INTO sources(source_title,href,link,bias_label,factual_rating,bias_desc,source_desc)
+    sql = ''' INSERT or IGNORE into sources(source_title,href,link,bias_label,factual_rating,bias_desc,source_desc)
               VALUES(?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, source)

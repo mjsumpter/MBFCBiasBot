@@ -23,7 +23,7 @@ def main():
 
         for submission in subreddit.new(limit=100):
 
-            if (submission.id not in posts_replied_to) and (submission.num_comments > 50) and (submission.num_comments < 150) and (not submission.stickied):
+            if (submission.id not in posts_replied_to) and (submission.num_comments > 50) and (submission.num_comments < 60) and (not submission.stickied):
                 # strip url to base domain
                 domain = (url_to_domain(submission.url),)
 
@@ -40,7 +40,7 @@ def main():
                     posts_replied_to.append(submission.id)  # log to posts
                     with open("posts_replied_to.txt", "w") as f:  # write to file
                         for post_id in posts_replied_to:
-                        f.write(post_id + "\n")
+                            f.write(post_id + "\n")
 
 
 if __name__ == '__main__':

@@ -102,7 +102,7 @@ def build_message(source):
     elif source_dict["bias"] == "QUESTIONABLE SOURCE":
         source_dict["bias_arrow"] = "<(>_<)(>_<)(>_<)(>_<)=|=(>_<)(>_<)(>_<)(>_<)(>_<)>\n\n"
     elif source_dict["bias"] == "SATIRE":
-        source_dict["bias_arrow"] = "<(⌒▽⌒）(⌒▽⌒）(⌒▽⌒）(⌒▽⌒）=|=(⌒▽⌒）(⌒▽⌒）(⌒▽⌒）(⌒▽⌒）>\n\n"
+        source_dict["bias_arrow"] = "<(*V*)(*V*)(*V*)(*V*)=|=(*V*)(*V*)(*V*)(*V*)>\n\n"
     else:
         source_dict["bias_arrow"] = ""
 
@@ -113,9 +113,9 @@ def build_message(source):
         "{desc1}\n\n"
         "{desc2}\n\n"
         "[Learn More]({href})\n\n"
-        "- -------------------------------------------------------------------------\n\n"
-        "[MediaBiasFactCheck](https: // mediabiasfactcheck.com/about/) | [Code/Docs](https: // github.com/mjsumpter/MBFCBiasBot) | [Feedback](http: // np.reddit.com/message/compose /?to=MBFCBiasBot & subject=Feedback)\n"
-        "- -- | ---- | ----"
+        "--------------------------------------------------------------------------\n\n"
+        "[MediaBiasFactCheck](https://mediabiasfactcheck.com/about/) | [Code/Docs](https://github.com/mjsumpter/MBFCBiasBot) | [Feedback](http://np.reddit.com/message/compose/?to=MBFCBiasBot&subject=Feedback)\n"
+        "---- | ---- | ----"
     )
 
     return template.format(**source_dict)
