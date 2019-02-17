@@ -4,45 +4,16 @@ import re
 from urllib.request import urlopen
 from sqlite3 import Error
 from bs4 import BeautifulSoup
-from helper import url_to_domain
-
-
-def create_connection(db_file):
-    """ create a database connection to the SQLite database
-        specified by db_file
-    :param db_file: database file
-    :return: Connection object or None
-    """
-    try:
-        conn = sqlite3.connect(db_file)
-        return conn
-    except Error as e:
-        print(e)
-
-    return None
-
-
-def create_source(conn, source):
-    """
-    Create a new source into the sources table
-    :param conn:
-    :param source:
-    :return: source id
-    """
-    sql = ''' INSERT OR IGNORE INTO sources(source_title,href,link,bias_label,factual_rating,bias_desc,source_desc)
-              VALUES(?,?,?,?,?,?,?) '''
-    cur = conn.cursor()
-    cur.execute(sql, source)
-    return cur.lastrowid
+from helper import url_to_domain, create_connection, create_source
 
 
 def main():
-    database = "./db/sources.db"
+
     url = "https://mediabiasfactcheck.com/"
     biases = ["left", "leftcenter", "center", "right-center",
               "right", "pro-science", "conspiracy", "fake-news", "satire"]
 
-    conn = create_connection(database)
+    conn = create_connection()
     with conn:
         for bias in biases:
             i = 1
@@ -76,9 +47,7 @@ def main():
                     index = pattern.search(source_soup.text).start()
                     link = source_soup.text[index+9:index+100]
                     link = link[:link.find('\n')]
-                    print(link)
                     link = url_to_domain(link)
-
                 else:
                     link = "Error"
 
@@ -97,12 +66,19 @@ def main():
                 html = source_soup.select_one('.entry-content p:nth-child(1)')
                 bias_desc = html.text.strip().replace(u'\xa0', u' ') if html else "Error"
 
-                html = source_soup.select_one('.entry-content p:nth-child(3)')
-                source_desc = html.text.strip().replace(u'\xa0', u' ') if html else "Error"
+                # grabs factual reporting tag
+                pattern = re.compile(r"(?:^|\W)Notes:(?:$|\W)")
+                if pattern.search(source_soup.text):
+                    index = pattern.search(source_soup.text).start()
+                    source_desc = source_soup.text[index+8:]
+                    source_desc = source_desc[:source_desc.find(')') + 1]
+                else:
+                    source_desc = "Error"
 
                 source = (source_title, href, link, bias_label,
                           factual_rating, bias_desc, source_desc)
                 create_source(conn, source)
+
                 print("Added " + bias + " source " +
                       str(i) + " " + href + " " + link)
                 i += 1
