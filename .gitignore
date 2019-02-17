@@ -111,3 +111,4 @@ db/
 
 .vscode/
 posts_replied_to.txt
+remote_bot.sh
