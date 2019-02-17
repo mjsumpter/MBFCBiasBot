@@ -22,6 +22,7 @@ def main():
         c = conn.cursor()
 
         for submission in subreddit.stream.submissions():
+
             if (submission.id not in posts_replied_to) and (submission.num_comments > 1) and (submission.num_comments < 150) and (not submission.stickied):
                 # strip url to base domain
                 domain = (url_to_domain(submission.url),)

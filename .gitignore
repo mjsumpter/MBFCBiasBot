@@ -110,3 +110,4 @@ venv.bak/
 db/
 
 .vscode/
+posts_replied_to.txt

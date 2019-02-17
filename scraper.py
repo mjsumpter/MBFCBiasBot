@@ -60,6 +60,11 @@ def main():
                     index = pattern.search(source_soup.text).start()
                     factual_rating = source_soup.text[index+12:index+20]
                     factual_rating = factual_rating[:factual_rating.find('\n')]
+                pattern = re.compile(r"(?:^|\W)Reasoning:(?:$|\W)")
+                if pattern.search(source_soup.text):
+                    index = pattern.search(source_soup.text).start()
+                    factual_rating = source_soup.text[index+12:index+100]
+                    factual_rating = factual_rating[:factual_rating.find('\n')]
                 else:
                     factual_rating = "Error"
 

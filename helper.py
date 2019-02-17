@@ -64,3 +64,16 @@ def create_source(conn, source):
     cur = conn.cursor()
     cur.execute(sql, source)
     return cur.lastrowid
+
+
+def build_message(source):
+    template = (
+        "**{bias}**\n\n"
+        "{arrow}<==O == == == == == == |= == == == == == == == >\n\n"
+        "{reporting}Factual Reporting: MIXED\n\n"
+        "{desc}These media sources are moderately to strongly biased toward liberal causes through story selection and/or political affiliation.  They may utilize strong loaded words(wording that attempts to influence an audience by using appeal to emotion or stereotypes), publish misleading reports and omit reporting of information that may damage liberal causes. Some sources in this category may be untrustworthy.\n\n"
+        "[Learn More]({href}https: // mediabiasfactcheck.com/al-hayat/)\n\n"
+        "- -------------------------------------------------------------------------\n\n"
+        "[MediaBiasFactCheck](https: // mediabiasfactcheck.com/about/) | [Code/Docs](https: // github.com/mjsumpter/MBFCBiasBot) | [Feedback](http: // np.reddit.com/message/compose /?to=MBFCBiasBot & subject=Feedback)\n"
+        "- -- | ---- | ----"
+    )
