@@ -16,14 +16,14 @@ def main():
             posts_replied_to = posts_replied_to.split("\n")
             posts_replied_to = list(filter(None, posts_replied_to))
 
-    subreddit = reddit.subreddit('uspolitics')
+    subreddit = reddit.subreddit('uspolitics+americanpolitics')
     conn = create_connection()
     with conn:
         c = conn.cursor()
 
         for submission in subreddit.new(limit=100):
 
-            if (submission.id not in posts_replied_to) and (submission.num_comments > 50) and (submission.num_comments < 60) and (not submission.stickied):
+            if (submission.id not in posts_replied_to) and (submission.num_comments > 5) and (submission.num_comments < 60) and (not submission.stickied):
                 # strip url to base domain
                 domain = (url_to_domain(submission.url),)
 
