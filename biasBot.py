@@ -21,9 +21,9 @@ def main():
     with conn:
         c = conn.cursor()
 
-        for submission in subreddit.stream.submissions():
+        for submission in subreddit.new(limit=100):
 
-            if (submission.id not in posts_replied_to) and (submission.num_comments > 1) and (submission.num_comments < 150) and (not submission.stickied):
+            if (submission.id not in posts_replied_to) and (submission.num_comments > 50) and (submission.num_comments < 150) and (not submission.stickied):
                 # strip url to base domain
                 domain = (url_to_domain(submission.url),)
 
@@ -45,9 +45,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-# in subreddit
-# if submission has over 50 but less than 100
-# pull domain
-# check for domain
-# if exists, push data into formatted message
-# post

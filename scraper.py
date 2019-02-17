@@ -4,7 +4,22 @@ import re
 from urllib.request import urlopen
 from sqlite3 import Error
 from bs4 import BeautifulSoup
-from helper import url_to_domain, create_connection, create_source
+from helper import url_to_domain, create_connection
+
+
+def create_source(conn, source):
+    """
+    Create a new source into the sources table
+    :param conn:
+    :param source:
+    :return: source id
+    """
+
+    sql = ''' INSERT OR UPDATE INTO sources(source_title,href,link,bias_label,factual_rating,bias_desc,source_desc)
+              VALUES(?,?,?,?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, source)
+    return cur.lastrowid
 
 
 def main():

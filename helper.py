@@ -52,20 +52,6 @@ def create_connection():
     return None
 
 
-def create_source(conn, source):
-    """
-    Create a new source into the sources table
-    :param conn:
-    :param source:
-    :return: source id
-    """
-    sql = ''' INSERT OR UPDATE INTO sources(source_title,href,link,bias_label,factual_rating,bias_desc,source_desc)
-              VALUES(?,?,?,?,?,?,?) '''
-    cur = conn.cursor()
-    cur.execute(sql, source)
-    return cur.lastrowid
-
-
 def build_message(source):
 
     source_dict = {}
