@@ -117,5 +117,6 @@ def build_message(source):
         "[MediaBiasFactCheck](https://mediabiasfactcheck.com/about/) | [Code/Docs](https://github.com/mjsumpter/MBFCBiasBot) | [Feedback](http://np.reddit.com/message/compose/?to=MBFCBiasBot&subject=Feedback)\n"
         "---- | ---- | ----"
     )
-
+    
+    template = template.replace(u'\xa0', u' ')
     return template.format(**source_dict)
