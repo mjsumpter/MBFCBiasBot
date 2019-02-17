@@ -42,6 +42,12 @@ def main():
                 # href is link to full info page on source
                 href = a['href']
 
+                link = ""
+                bias_label = ""
+                factual_rating = ""
+                bias_desc = ""
+                source_desc = ""
+
                 # stops specific trouble children from crashing scanner
                 if (not "mediabiasfactcheck" in href) or ("strategic-culture-foundation" in href):
                     print("Bad Source")
@@ -80,7 +86,7 @@ def main():
                     index = pattern.search(source_soup.text).start()
                     factual_rating = source_soup.text[index+12:index+100]
                     factual_rating = factual_rating[:factual_rating.find('\n')]
-                else:
+                if len(factual_rating) == 0:
                     factual_rating = "Error"
 
                 html = source_soup.select_one('.entry-content p:nth-child(1)')
@@ -99,8 +105,8 @@ def main():
                           factual_rating, bias_desc, source_desc)
                 create_source(conn, source)
 
-                print("Added " + bias + " source " +
-                      str(i) + " " + href + " " + link)
+                print("Added " + bias + " rating " +
+                      str(i) + " " + factual_rating + " " + link)
                 i += 1
 
 

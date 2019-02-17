@@ -7,3 +7,5 @@ praw.ini
 venv/
 requirements.txt
 activate
+.vscode/
+remote_bot.sh
