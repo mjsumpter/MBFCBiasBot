@@ -1,7 +1,7 @@
 import praw
 import sqlite3
 import os
-from helper import url_to_domain, create_connection
+from helper import url_to_domain, create_connection, build_message
 
 
 def main():
@@ -27,9 +27,20 @@ def main():
                 # strip url to base domain
                 domain = (url_to_domain(submission.url),)
 
+                post = ""
+
+                # find match in database
                 for row in c.execute("SELECT * FROM sources WHERE link=?", domain):
-                    print("Source:")
-                    print(type(row))
+                    post = build_message(row)  # parses match into comment text
+
+                if post != "":
+                    submission.reply(post)  # post comment
+                    print("Replying to: ", submission.title,
+                          " http://reddit.com", submission.permalink)
+                    posts_replied_to.append(submission.id)  # log to posts
+                    with open("posts_replied_to.txt", "w") as f:  # write to file
+                        for post_id in posts_replied_to:
+                        f.write(post_id + "\n")
 
 
 if __name__ == '__main__':

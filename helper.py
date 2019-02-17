@@ -66,14 +66,38 @@ def create_source(conn, source):
     return cur.lastrowid
 
 
-def source_to_dict(source):
-    source_dict["title"] = source[0]
-    source_dict["href"] = source[1]
-    source_dict["link"] = source[2]
-    source_dict["bias"] = source[3]
-    source_dict["rating"] = source[4]
-    source_dict["desc1"] = source[5]
-    source_dict["desc2"] = source[6]
+def build_message(source):
+
+    source_dict = {}
+
+    if source[0] and source[0] != "Error":
+        source_dict["title"] = source[0]
+    else:
+        source_dict["title"] = ""
+    if source[1] and source[1] != "Error":
+        source_dict["href"] = source[1]
+    else:
+        source_dict["href"] = ""
+    if source[2] and source[2] != "Error":
+        source_dict["link"] = source[2]
+    else:
+        source_dict["link"] = ""
+    if source[3] and source[3] != "Error":
+        source_dict["bias"] = source[3]
+    else:
+        source_dict["bias"] = ""
+    if source[4] and source[4] != "Error":
+        source_dict["rating"] = source[4]
+    else:
+        source_dict["rating"] = ""
+    if source[5] and source[5] != "Error":
+        source_dict["desc1"] = source[5]
+    else:
+        source_dict["desc1"] = ""
+    if source[6] and source[6] != "Error":
+        source_dict["desc2"] = source[6]
+    else:
+        source_dict["desc2"] = ""
 
     if source_dict["bias"] == "LEFT BIAS":
         source_dict["bias_arrow"] = "<==O == == == == == == =|= == == == == == == ==>\n\n"
@@ -96,16 +120,13 @@ def source_to_dict(source):
     else:
         source_dict["bias_arrow"] = ""
 
-    return source_to_dict
-
-
-def build_message(source_dict):
     template = (
         "**{bias}**\n\n"
-        "{arrow}<==O == == == == == == |= == == == == == == == >\n\n"
-        "{reporting}Factual Reporting: MIXED\n\n"
-        "{desc}These media sources are moderately to strongly biased toward liberal causes through story selection and/or political affiliation.  They may utilize strong loaded words(wording that attempts to influence an audience by using appeal to emotion or stereotypes), publish misleading reports and omit reporting of information that may damage liberal causes. Some sources in this category may be untrustworthy.\n\n"
-        "[Learn More]({href}https: // mediabiasfactcheck.com/al-hayat/)\n\n"
+        "{bias_arrow}"
+        "Factual Reporting: {rating}\n\n"
+        "{desc1}\n\n"
+        "{desc2}\n\n"
+        "[Learn More]({href})\n\n"
         "- -------------------------------------------------------------------------\n\n"
         "[MediaBiasFactCheck](https: // mediabiasfactcheck.com/about/) | [Code/Docs](https: // github.com/mjsumpter/MBFCBiasBot) | [Feedback](http: // np.reddit.com/message/compose /?to=MBFCBiasBot & subject=Feedback)\n"
         "- -- | ---- | ----"
