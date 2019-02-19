@@ -89,7 +89,7 @@ def main():
                 if len(factual_rating) == 0:
                     factual_rating = "Error"
 
-                html = source_soup.select_one('.entry-content p:nth-child(1)')
+                html = source_soup.select_one('.entry-content p:nth-of-type(1)')
                 bias_desc = html.text.strip().replace(u'\xa0', u' ') if html else "Error"
 
                 # grabs factual reporting tag

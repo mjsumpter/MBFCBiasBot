@@ -1,5 +1,7 @@
 # MBFCBiasBot
 
+## -------- Currently offline ------- ##
+
 What is the point of MBFCBiasBot?
 
 MBFCBiasBot is designed with the intention of informing users of the historical bias of an orginazation they may be viewing on reddit. In the age of information, the need for bias analysis and education has become apparent.
