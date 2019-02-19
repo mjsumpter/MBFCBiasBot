@@ -1,6 +1,8 @@
 # MBFCBiasBot
 
-## -------- Currently offline ------- ##
+## -------- Currently offline -------
+
+![In Action](./screenshot.png?raw=true "BiasBot in Action")
 
 What is the point of MBFCBiasBot?
 
