@@ -36,7 +36,7 @@ def main():
 
             bias_soup = BeautifulSoup(r_bias.content, 'html.parser')
 
-            for a in bias_soup.select('.entry p a'):
+            for a in bias_soup.select('.entry table a'):
                 # get source title from sources list
                 source_title = a.text.strip()
                 # href is link to full info page on source
